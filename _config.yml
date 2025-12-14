@@ -1,0 +1,21 @@
+title: aicgen
+description: AI Config Generator for Coding Assistants
+baseurl: "/aicgen"
+url: "https://lahirus.com"
+
+markdown: kramdown
+theme: null
+
+exclude:
+  - node_modules
+  - package.json
+  - yarn.lock
+  - vite.config.ts
+  - tsconfig.json
+  - README.md
+  - components
+  - App.tsx
+  - index.tsx
+  - types.ts
+  - .env.local
+  - dist

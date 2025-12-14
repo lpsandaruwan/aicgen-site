@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Jekyll
+_site
+.jekyll-cache
+.jekyll-metadata
+vendor
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

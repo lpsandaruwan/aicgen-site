@@ -1,80 +1,602 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>aicgen - AI Config Generator for Coding Assistants</title>
-    <meta name="description" content="Generate tailored configuration files for Claude Code, GitHub Copilot, Gemini, and more. 75+ guidelines across 12 categories." />
-    <meta name="keywords" content="AI, CLI, config generator, Claude Code, GitHub Copilot, Gemini, coding assistant, developer tools" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #0f172a;
-        color: #ffffff;
-      }
-      code, pre, .font-mono {
-        font-family: 'JetBrains Mono', monospace;
-      }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #0f172a;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #1e1b4b;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #334155;
-      }
-    </style>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              background: '#0f172a',
-              card: '#1e1b4b',
-              primary: '#06b6d4',
-              secondary: '#8b5cf6',
-              success: '#10b981',
-              textGray: '#94a3b8',
-            },
-            animation: {
-              'blob': 'blob 7s infinite',
-            },
-            keyframes: {
-              blob: {
-                '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                '100%': { transform: 'translate(0px, 0px) scale(1)' },
-              }
-            }
-          }
+---
+layout: default
+title: aicgen
+---
+
+<div class="min-h-screen bg-background text-white selection:bg-primary/30 selection:text-white">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 w-full backdrop-blur-md bg-background/80 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+          <svg class="h-10 w-auto" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="aicgen logo">
+            <circle cx="10" cy="15" r="4" class="fill-[#06b6d4] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+            <circle cx="10" cy="30" r="4" class="fill-[#06b6d4] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+            <circle cx="10" cy="45" r="4" class="fill-[#06b6d4] drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+            <path d="M14 15 C 30 15, 40 25, 55 25" stroke="url(#lineGradient1)" stroke-width="2" stroke-linecap="round" />
+            <path d="M14 30 C 30 30, 40 30, 55 30" stroke="url(#lineGradient2)" stroke-width="2" stroke-linecap="round" />
+            <path d="M14 45 C 30 45, 40 35, 55 35" stroke="url(#lineGradient3)" stroke-width="2" stroke-linecap="round" />
+            <rect x="55" y="10" width="30" height="40" rx="4" class="fill-[#1e1b4b] stroke-[#8b5cf6] stroke-2" />
+            <line x1="62" y1="20" x2="78" y2="20" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+            <line x1="62" y1="28" x2="72" y2="28" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+            <line x1="62" y1="36" x2="75" y2="36" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" opacity="0.6" />
+            <path d="M77 10 L 85 10 L 85 18 L 77 10 Z" class="fill-[#8b5cf6] opacity-50" />
+            <circle cx="78" cy="44" r="2" class="fill-[#10b981]" />
+            <defs>
+              <linearGradient id="lineGradient1" x1="14" y1="15" x2="55" y2="25" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#8b5cf6" />
+              </linearGradient>
+              <linearGradient id="lineGradient2" x1="14" y1="30" x2="55" y2="30" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#8b5cf6" />
+              </linearGradient>
+              <linearGradient id="lineGradient3" x1="14" y1="45" x2="55" y2="35" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#06b6d4" />
+                <stop offset="100%" stop-color="#8b5cf6" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="ml-3 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            aicgen
+          </span>
+        </div>
+
+        <div class="hidden md:block">
+          <div class="ml-10 flex items-baseline space-x-8">
+            <a href="#features" class="text-textGray hover:text-white transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+            <a href="#how-it-works" class="text-textGray hover:text-white transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">How It Works</a>
+            <a href="#installation" class="text-textGray hover:text-white transition-colors duration-300 px-3 py-2 rounded-md text-sm font-medium">Installation</a>
+            <a href="https://github.com/lpsandaruwan/aicgen" target="_blank" rel="noopener noreferrer" class="text-textGray hover:text-white transition-colors" aria-label="GitHub Repository">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="-mr-2 flex md:hidden">
+          <button id="mobile-menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-textGray hover:text-white focus:outline-none">
+            <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            <svg id="close-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden bg-background border-b border-white/10">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#features" class="text-textGray hover:text-white block px-3 py-2 rounded-md text-base font-medium">Features</a>
+        <a href="#how-it-works" class="text-textGray hover:text-white block px-3 py-2 rounded-md text-base font-medium">How It Works</a>
+        <a href="#installation" class="text-textGray hover:text-white block px-3 py-2 rounded-md text-base font-medium">Installation</a>
+        <a href="https://github.com/lpsandaruwan/aicgen" target="_blank" rel="noopener noreferrer" class="text-textGray hover:text-white block px-3 py-2 rounded-md text-base font-medium">GitHub Repo</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="relative pt-20 pb-32 overflow-hidden">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gradient-to-b from-primary/10 via-secondary/5 to-transparent blur-3xl -z-10"></div>
+      <div class="absolute top-20 right-0 w-72 h-72 bg-secondary/20 rounded-full blur-[100px] -z-10 animate-blob"></div>
+      <div class="absolute top-40 left-0 w-72 h-72 bg-primary/20 rounded-full blur-[100px] -z-10 animate-blob animation-delay-2000"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <div class="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium mb-6 backdrop-blur-sm">
+            <span class="w-2 h-2 rounded-full bg-success mr-2 animate-pulse"></span>
+            v1.0 is now available
+          </div>
+
+          <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
+            AI Config Generator
+            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mt-2">
+              for better coding
+            </span>
+          </h1>
+
+          <p class="text-lg md:text-xl text-textGray mb-10 leading-relaxed">
+            Makes your project AI-ready in seconds with tailored instruction files for Claude Code, GitHub Copilot, and Gemini.
+          </p>
+
+          <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <a href="#installation" class="w-full sm:w-auto px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-secondary text-white font-bold text-lg hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center">
+              Get Started
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+
+            <a href="https://github.com/lpsandaruwan/aicgen" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 rounded-lg border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 text-white font-medium text-lg transition-all duration-300 flex items-center justify-center backdrop-blur-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Terminal Demo -->
+        <div class="relative mx-auto max-w-4xl">
+          <div class="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-30"></div>
+          <div class="w-full max-w-lg mx-auto rounded-lg overflow-hidden bg-[#1e1b4b] border border-[#8b5cf6]/30 shadow-2xl shadow-primary/10 font-mono text-sm relative">
+            <div class="bg-[#0f172a]/80 px-4 py-2 flex items-center space-x-2 border-b border-white/5">
+              <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+              <div class="ml-2 text-xs text-textGray">bash — aicgen</div>
+            </div>
+            <div class="p-4 h-[300px] overflow-y-auto" id="terminal-content">
+              <!-- Terminal animation will be added via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Supported Assistants -->
+        <div class="mt-20 pt-10 border-t border-white/5">
+          <p class="text-center text-textGray text-sm uppercase tracking-widest mb-8">Supported Assistants</p>
+          <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+            <span class="font-bold text-xl text-white flex items-center gap-2"><div class="w-3 h-3 bg-[#d97757] rounded-full"></div>Claude</span>
+            <span class="font-bold text-xl text-white flex items-center gap-2"><div class="w-3 h-3 bg-white rounded-full"></div>Copilot</span>
+            <span class="font-bold text-xl text-white flex items-center gap-2"><div class="w-3 h-3 bg-[#4285f4] rounded-full"></div>Gemini</span>
+            <span class="font-bold text-xl text-white flex items-center gap-2"><div class="w-3 h-3 bg-purple-500 rounded-full"></div>Codex</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+              Everything you need
+            </span> to make your project AI-ready
+          </h2>
+          <p class="text-textGray max-w-2xl mx-auto text-lg">
+            Standardize your AI assistant's context with professional-grade configuration files.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="group relative bg-card rounded-xl p-6 border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-lg bg-[#0f172a] flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M12 6h.01"/><circle cx="12" cy="14" r="4"/><path d="M12 18v.01"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-2">Multi-Assistant Support</h3>
+              <p class="text-textGray leading-relaxed">Supports Claude Code, GitHub Copilot, Gemini, Antigravity, and Codex out of the box.</p>
+            </div>
+          </div>
+
+          <div class="group relative bg-card rounded-xl p-6 border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-lg bg-[#0f172a] flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-2">75+ Guidelines</h3>
+              <p class="text-textGray leading-relaxed">Comprehensive coverage across 12 categories including Security, API Design, and Performance.</p>
+            </div>
+          </div>
+
+          <div class="group relative bg-card rounded-xl p-6 border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-lg bg-[#0f172a] flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-2">Interactive CLI Wizard</h3>
+              <p class="text-textGray leading-relaxed">Professional setup wizard with smart defaults, back navigation, and auto-detection.</p>
+            </div>
+          </div>
+
+          <div class="group relative bg-card rounded-xl p-6 border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-lg bg-[#0f172a] flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-2">Hooks & Sub-Agents</h3>
+              <p class="text-textGray leading-relaxed">Auto-generates verification agents and hooks specifically for Claude Code workflows.</p>
+            </div>
+          </div>
+
+          <div class="group relative bg-card rounded-xl p-6 border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-lg bg-[#0f172a] flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-2">Architecture Aware</h3>
+              <p class="text-textGray leading-relaxed">Tailors guidelines for Microservices, Hexagonal, Modular Monoliths, and Event-Driven systems.</p>
+            </div>
+          </div>
+
+          <div class="group relative bg-card rounded-xl p-6 border border-white/5 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-lg bg-[#0f172a] flex items-center justify-center mb-4 border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" x2="12" y1="22.08" y2="12"/></svg>
+              </div>
+              <h3 class="text-xl font-semibold text-white mb-2">Zero Dependencies</h3>
+              <p class="text-textGray leading-relaxed">Self-contained binary with all guideline data embedded. Works completely offline.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 bg-[#0f172a]">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-bold mb-4">How It Works</h2>
+          <p class="text-textGray">Zero friction setup. From terminal to AI-ready in seconds.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 relative">
+          <div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-primary/30 to-secondary/30 z-0"></div>
+
+          <div class="relative z-10 flex flex-col items-center text-center group">
+            <div class="w-24 h-24 rounded-2xl bg-[#1e1b4b] border border-white/10 flex items-center justify-center mb-6 shadow-lg group-hover:border-primary/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+            </div>
+            <div class="bg-white/5 rounded px-3 py-1 mb-4 text-xs font-mono text-primary/80 border border-white/5">aicgen init</div>
+            <h3 class="text-xl font-semibold mb-2 text-white">Run Init</h3>
+            <p class="text-textGray max-w-xs">Navigate to your project root and run the initialization command.</p>
+          </div>
+
+          <div class="relative z-10 flex flex-col items-center text-center group">
+            <div class="w-24 h-24 rounded-2xl bg-[#1e1b4b] border border-white/10 flex items-center justify-center mb-6 shadow-lg group-hover:border-primary/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="bg-white/5 rounded px-3 py-1 mb-4 text-xs font-mono text-primary/80 border border-white/5">Select Assistant › Claude</div>
+            <h3 class="text-xl font-semibold mb-2 text-white">Configure</h3>
+            <p class="text-textGray max-w-xs">Select your AI assistant and architecture pattern via the interactive wizard.</p>
+          </div>
+
+          <div class="relative z-10 flex flex-col items-center text-center group">
+            <div class="w-24 h-24 rounded-2xl bg-[#1e1b4b] border border-white/10 flex items-center justify-center mb-6 shadow-lg group-hover:border-primary/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary group-hover:text-secondary transition-colors"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>
+            </div>
+            <div class="bg-white/5 rounded px-3 py-1 mb-4 text-xs font-mono text-primary/80 border border-white/5">✔ Config Generated</div>
+            <h3 class="text-xl font-semibold mb-2 text-white">Generated</h3>
+            <p class="text-textGray max-w-xs">Get a tailored set of guidelines, rules, and hook configurations instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output Preview Section -->
+    <section class="py-20 relative">
+      <div class="absolute inset-0 bg-gradient-to-b from-[#0f172a] via-[#1e1b4b]/20 to-[#0f172a]"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+
+          <div>
+            <h2 class="text-3xl font-bold mb-6">
+              Crystal Clear <span class="text-primary">Configuration</span>
+            </h2>
+            <p class="text-textGray mb-8 text-lg">
+              aicgen doesn't just create empty files. It generates a complete, structured, and opinionated configuration ecosystem tailored to your specific architecture and language.
+            </p>
+
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-center space-x-3 text-gray-300">
+                <div class="h-2 w-2 rounded-full bg-success shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                <span>Language-specific best practices</span>
+              </li>
+              <li class="flex items-center space-x-3 text-gray-300">
+                <div class="h-2 w-2 rounded-full bg-success shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                <span>Architecture-aware folder structures</span>
+              </li>
+              <li class="flex items-center space-x-3 text-gray-300">
+                <div class="h-2 w-2 rounded-full bg-success shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                <span>Automated agent instructions</span>
+              </li>
+              <li class="flex items-center space-x-3 text-gray-300">
+                <div class="h-2 w-2 rounded-full bg-success shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+                <span>Consistent coding standards</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-card border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+            <div class="flex border-b border-white/5 bg-[#0f172a]/50">
+              <div class="px-4 py-3 text-sm font-medium text-white border-b-2 border-primary">Claude Code</div>
+              <div class="px-4 py-3 text-sm font-medium text-textGray hover:text-white cursor-pointer">GitHub Copilot</div>
+              <div class="px-4 py-3 text-sm font-medium text-textGray hover:text-white cursor-pointer">Gemini</div>
+            </div>
+
+            <div class="p-6 font-mono text-sm">
+              <div class="flex items-center space-x-2 text-primary mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                <span>CLAUDE.md</span>
+              </div>
+              <div class="pl-4 border-l border-white/10 ml-2 space-y-2">
+                <div class="flex items-center space-x-2 text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-secondary"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                  <span>.claude/</span>
+                </div>
+                <div class="pl-6 space-y-2">
+                  <div class="flex items-center space-x-2 text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    <span>settings.json</span>
+                  </div>
+                  <div class="flex items-center space-x-2 text-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-secondary"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                    <span>guidelines/</span>
+                  </div>
+                  <div class="pl-6 space-y-1 text-gray-500">
+                    <div>├── language.md</div>
+                    <div>├── architecture.md</div>
+                    <div>├── testing.md</div>
+                    <div>└── security.md</div>
+                  </div>
+                  <div class="flex items-center space-x-2 text-gray-300 pt-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-secondary"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                    <span>agents/</span>
+                  </div>
+                  <div class="pl-6 text-gray-500">
+                    <div>└── guideline-checker.md</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="py-20 bg-[#0b1021]">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl font-bold text-white mb-4">Install Anywhere</h2>
+          <p class="text-textGray">Choose your preferred installation method.</p>
+        </div>
+
+        <div class="bg-card rounded-2xl p-2 md:p-8 border border-white/5 shadow-xl">
+          <div class="flex flex-wrap justify-center space-x-2 mb-8 border-b border-white/10 pb-1" id="install-tabs">
+            <button class="tab-button px-4 py-2 rounded-t-lg text-sm font-medium transition-colors relative top-[1px] text-primary border-b-2 border-primary bg-[#0f172a]" data-tab="npm">npm (Rec.)</button>
+            <button class="tab-button px-4 py-2 rounded-t-lg text-sm font-medium transition-colors relative top-[1px] text-textGray hover:text-white" data-tab="windows">Windows</button>
+            <button class="tab-button px-4 py-2 rounded-t-lg text-sm font-medium transition-colors relative top-[1px] text-textGray hover:text-white" data-tab="mac">macOS</button>
+            <button class="tab-button px-4 py-2 rounded-t-lg text-sm font-medium transition-colors relative top-[1px] text-textGray hover:text-white" data-tab="linux">Linux</button>
+          </div>
+
+          <div class="min-h-[200px] flex flex-col justify-center">
+            <div id="tab-npm" class="tab-content">
+              <div class="space-y-4">
+                <div class="bg-[#0f172a] rounded-lg p-4 border border-white/10 relative group">
+                  <div class="text-textGray text-sm mb-2"># Install globally</div>
+                  <code class="text-primary font-mono text-sm sm:text-base block">npm install -g @aicgen/aicgen</code>
+                  <button onclick="copyToClipboard('npm install -g @aicgen/aicgen')" class="absolute right-4 top-4 p-2 rounded hover:bg-white/10 text-textGray hover:text-white transition-colors" aria-label="Copy command">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+                <div class="bg-[#0f172a] rounded-lg p-4 border border-white/10 relative group">
+                  <div class="text-textGray text-sm mb-2"># Or use via npx (no install)</div>
+                  <code class="text-secondary font-mono text-sm sm:text-base block">npx @aicgen/aicgen init</code>
+                  <button onclick="copyToClipboard('npx @aicgen/aicgen init')" class="absolute right-4 top-4 p-2 rounded hover:bg-white/10 text-textGray hover:text-white transition-colors" aria-label="Copy command">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2 V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="tab-windows" class="tab-content hidden">
+              <div class="text-center py-6">
+                <a href="https://github.com/lpsandaruwan/aicgen/releases/latest" class="inline-flex items-center px-6 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-white font-medium hover:opacity-90 transition-opacity shadow-lg shadow-primary/25">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                  Download Windows Installer (.exe)
+                </a>
+                <p class="mt-4 text-textGray text-sm">Includes automatic PATH configuration.</p>
+              </div>
+            </div>
+
+            <div id="tab-mac" class="tab-content hidden">
+              <div class="text-center py-6">
+                <a href="https://github.com/lpsandaruwan/aicgen/releases/latest" class="inline-flex items-center px-6 py-3 rounded-lg bg-white text-background font-medium hover:bg-gray-100 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                  Download macOS Package (.pkg)
+                </a>
+                <p class="mt-4 text-textGray text-sm">Standard macOS installer signed & notarized.</p>
+              </div>
+            </div>
+
+            <div id="tab-linux" class="tab-content hidden">
+              <div class="space-y-4">
+                <div class="bg-[#0f172a] rounded-lg p-4 border border-white/10 font-mono text-sm">
+                  <div class="text-gray-500 mb-2"># Debian / Ubuntu</div>
+                  <div class="text-green-400">sudo dpkg -i aicgen_amd64.deb</div>
+                </div>
+                <div class="bg-[#0f172a] rounded-lg p-4 border border-white/10 font-mono text-sm">
+                  <div class="text-gray-500 mb-2"># RedHat / Fedora</div>
+                  <div class="text-red-400">sudo rpm -i aicgen_x86_64.rpm</div>
+                </div>
+                <div class="text-center mt-4">
+                  <a href="https://github.com/lpsandaruwan/aicgen/releases/latest" class="text-primary hover:text-secondary underline underline-offset-4 text-sm">
+                    View all Linux releases on GitHub
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16 text-center">
+          <p class="text-textGray mb-4 uppercase tracking-wider text-xs font-semibold">Quick Start</p>
+          <div class="inline-block p-[1px] rounded-lg bg-gradient-to-r from-primary to-secondary">
+            <div class="bg-[#0f172a] rounded-lg px-8 py-4 flex items-center space-x-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-secondary"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+              <span class="font-mono text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                aicgen init
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-16 border-t border-white/5 bg-[#1e1b4b]/30">
+      <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <div class="text-4xl font-bold text-primary mb-2">75+</div>
+          <div class="text-textGray text-sm uppercase tracking-wider">Guidelines</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-secondary mb-2">12</div>
+          <div class="text-textGray text-sm uppercase tracking-wider">Categories</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-primary mb-2">8</div>
+          <div class="text-textGray text-sm uppercase tracking-wider">Languages</div>
+        </div>
+        <div>
+          <div class="text-4xl font-bold text-secondary mb-2">5</div>
+          <div class="text-textGray text-sm uppercase tracking-wider">Assistants</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#0b1021] border-t border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+
+        <div class="mb-8 md:mb-0 text-center md:text-left">
+          <div class="flex items-center justify-center md:justify-start mb-4">
+            <svg class="h-8 w-auto" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="10" cy="15" r="4" class="fill-[#06b6d4]" />
+              <circle cx="10" cy="30" r="4" class="fill-[#06b6d4]" />
+              <circle cx="10" cy="45" r="4" class="fill-[#06b6d4]" />
+              <rect x="55" y="10" width="30" height="40" rx="4" class="fill-[#1e1b4b] stroke-[#8b5cf6] stroke-2" />
+            </svg>
+            <span class="ml-2 text-xl font-bold text-white">aicgen</span>
+          </div>
+          <p class="text-textGray text-sm max-w-xs">
+            Configuration generator for AI coding assistants. Make your project AI-ready in seconds.
+          </p>
+        </div>
+
+        <div class="flex space-x-6">
+          <a href="https://github.com/lpsandaruwan/aicgen" class="text-textGray hover:text-white transition-colors" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.npmjs.com/package/@aicgen/aicgen" class="text-textGray hover:text-white transition-colors font-bold text-xl tracking-tighter" aria-label="NPM">npm</a>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-sm text-textGray">
+        <p>© <span id="year"></span> Lahiru Sandaruwan. MIT License.</p>
+        <div class="mt-4 md:mt-0 flex space-x-4">
+          <span class="px-2 py-1 rounded bg-white/5 text-xs">v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+    menuIcon.classList.toggle('hidden');
+    closeIcon.classList.toggle('hidden');
+  });
+
+  // Close mobile menu on link click
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+    });
+  });
+
+  // Terminal animation
+  const terminalContent = document.getElementById('terminal-content');
+  const steps = [
+    { text: "> navigate to project...", delay: 500, color: "" },
+    { text: "> aicgen init", delay: 1500, color: "" },
+    { text: "✔  Analyzing project structure...", delay: 2500, color: "text-blue-400" },
+    { text: "? Select AI Assistant › Claude Code", delay: 3500, color: "text-primary" },
+    { text: "? Choose Architecture › Modular Monolith", delay: 4500, color: "text-primary" },
+    { text: "✔  Configuration generated successfully!", delay: 5500, color: "text-success" },
+    { text: "  + .claude/settings.json", delay: 6000, color: "text-textGray" },
+    { text: "  + .claude/guidelines/architecture.md", delay: 6200, color: "text-textGray" },
+    { text: "  + .claude/agents/checker.md", delay: 6400, color: "text-textGray" },
+    { text: "> Ready to code.", delay: 7000, color: "text-white" }
+  ];
+
+  function runTerminalAnimation() {
+    terminalContent.innerHTML = '';
+    steps.forEach((step, idx) => {
+      setTimeout(() => {
+        const line = document.createElement('div');
+        line.className = `${step.color || 'text-gray-300'} mb-1`;
+        line.textContent = step.text;
+        terminalContent.appendChild(line);
+
+        if (idx === steps.length - 1) {
+          const cursor = document.createElement('div');
+          cursor.className = 'animate-pulse inline-block w-2 h-4 bg-primary align-middle ml-1';
+          terminalContent.appendChild(cursor);
         }
-      }
-    </script>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+      }, step.delay);
+    });
   }
-}
+
+  runTerminalAnimation();
+  setInterval(runTerminalAnimation, 9000);
+
+  // Installation tabs
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tab = button.dataset.tab;
+
+      tabButtons.forEach(btn => {
+        btn.classList.remove('text-primary', 'border-b-2', 'border-primary', 'bg-[#0f172a]');
+        btn.classList.add('text-textGray');
+      });
+
+      button.classList.remove('text-textGray');
+      button.classList.add('text-primary', 'border-b-2', 'border-primary', 'bg-[#0f172a]');
+
+      tabContents.forEach(content => {
+        content.classList.add('hidden');
+      });
+
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+    });
+  });
+
+  // Copy to clipboard
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
+  }
+
+  // Set current year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Auto-detect platform
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes('win')) {
+    document.querySelector('[data-tab="windows"]').click();
+  } else if (ua.includes('mac')) {
+    document.querySelector('[data-tab="mac"]').click();
+  } else if (ua.includes('linux')) {
+    document.querySelector('[data-tab="linux"]').click();
+  }
 </script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body>
-    <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
-</html>
