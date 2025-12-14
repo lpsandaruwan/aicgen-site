@@ -1,0 +1,5 @@
+{
+  "name": "aicgen",
+  "description": "AI Config Generator - A CLI tool that generates configuration files for AI coding assistants like Claude Code, GitHub Copilot, and Gemini.",
+  "requestFramePermissions": []
+}
