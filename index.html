@@ -549,16 +549,31 @@ title: aicgen
   // Terminal animation
   const terminalContent = document.getElementById('terminal-content');
   const steps = [
-    { text: "> navigate to project...", delay: 500, color: "" },
-    { text: "> aicgen init", delay: 1500, color: "" },
-    { text: "✔  Analyzing project structure...", delay: 2500, color: "text-blue-400" },
-    { text: "? Select AI Assistant › Claude Code", delay: 3500, color: "text-primary" },
-    { text: "? Choose Architecture › Modular Monolith", delay: 4500, color: "text-primary" },
-    { text: "✔  Configuration generated successfully!", delay: 5500, color: "text-success" },
-    { text: "  + .claude/settings.json", delay: 6000, color: "text-textGray" },
-    { text: "  + .claude/guidelines/architecture.md", delay: 6200, color: "text-textGray" },
-    { text: "  + .claude/agents/checker.md", delay: 6400, color: "text-textGray" },
-    { text: "> Ready to code.", delay: 7000, color: "text-white" }
+    { text: "$ aicgen init", delay: 300, color: "text-white" },
+    { text: "", delay: 400, color: "" },
+    { text: "✔ Project detected", delay: 1200, color: "text-green-400" },
+    { text: "", delay: 1300, color: "" },
+    { text: "┌─ 📁 Project Detection ──────────────────┐", delay: 1400, color: "text-gray-500" },
+    { text: "│ Name      my-api-project               │", delay: 1500, color: "text-gray-400" },
+    { text: "│ Language  typescript                   │", delay: 1600, color: "text-gray-400" },
+    { text: "└──────────────────────────────────────────┘", delay: 1700, color: "text-gray-500" },
+    { text: "", delay: 1800, color: "" },
+    { text: "? Use detected language: typescript? (Y/n) Y", delay: 2500, color: "text-cyan-400" },
+    { text: "? What type of project is this? › API / Backend", delay: 3200, color: "text-cyan-400" },
+    { text: "? Which AI assistant? › Claude Code", delay: 3900, color: "text-cyan-400" },
+    { text: "? Setup type? › Quick Setup", delay: 4500, color: "text-cyan-400" },
+    { text: "? Architecture pattern? › Modular Monolith", delay: 5200, color: "text-cyan-400" },
+    { text: "? Data storage? › SQL Database", delay: 5800, color: "text-cyan-400" },
+    { text: "? Instruction detail level? › Standard (68 guidelines)", delay: 6500, color: "text-cyan-400" },
+    { text: "? Proceed with generation? › Yes, generate configuration", delay: 7200, color: "text-cyan-400" },
+    { text: "", delay: 7300, color: "" },
+    { text: "✔ Configuration generated", delay: 8000, color: "text-green-400" },
+    { text: "", delay: 8100, color: "" },
+    { text: "✅ Generated files:", delay: 8200, color: "text-green-400" },
+    { text: "   CLAUDE.md", delay: 8400, color: "text-gray-400" },
+    { text: "   .claude/settings.json", delay: 8500, color: "text-gray-400" },
+    { text: "   .claude/guidelines/language.md", delay: 8600, color: "text-gray-400" },
+    { text: "   .claude/guidelines/architecture.md", delay: 8700, color: "text-gray-400" }
   ];
 
   function runTerminalAnimation() {
@@ -580,7 +595,7 @@ title: aicgen
   }
 
   runTerminalAnimation();
-  setInterval(runTerminalAnimation, 9000);
+  setInterval(runTerminalAnimation, 11000);
 
   // Installation tabs
   const tabButtons = document.querySelectorAll('.tab-button');
