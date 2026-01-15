@@ -1088,7 +1088,7 @@ title: aicgen
                     <polyline points="7 10 12 15 17 10" />
                     <line x1="12" x2="12" y1="15" y2="3" />
                   </svg>
-                  Download Windows Installer (.exe)
+                  Download aicgen-setup-x64.exe
                 </a>
                 <p class="mt-4 text-textGray text-sm">
                   Includes automatic PATH configuration.
@@ -1097,30 +1097,34 @@ title: aicgen
             </div>
 
             <div id="tab-mac" class="tab-content hidden">
-              <div class="text-center py-6">
-                <a
-                  href="https://github.com/aicgen/aicgen/releases/latest"
-                  class="inline-flex items-center px-6 py-3 rounded-lg bg-white text-background font-medium hover:bg-gray-100 transition-colors"
+              <div class="space-y-4">
+                <div
+                  class="bg-[#0f172a] rounded-lg p-4 border border-white/10 relative group"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="mr-2"
+                  <div class="text-textGray text-sm mb-2"># Install with Homebrew</div>
+                  <code class="text-purple-400 font-mono text-sm sm:text-base block">
+                    brew tap aicgen/aicgen<br>
+                    brew install aicgen
+                  </code>
+                  <button
+                    onclick="copyToClipboard('brew tap aicgen/aicgen && brew install aicgen')"
+                    class="absolute right-4 top-4 p-2 rounded hover:bg-white/10 text-textGray hover:text-white transition-colors"
+                    aria-label="Copy command"
                   >
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" x2="12" y1="15" y2="3" />
-                  </svg>
-                  Download macOS Package (.pkg)
-                </a>
-                <p class="mt-4 text-textGray text-sm">
-                  Standard macOS installer signed & notarized.
-                </p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 
