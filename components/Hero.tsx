@@ -14,7 +14,7 @@ export const Hero: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-medium mb-6 backdrop-blur-sm">
             <span className="w-2 h-2 rounded-full bg-success mr-2 animate-pulse" />
-            v1.0 is now available
+            v1.1.0 is now available
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">

@@ -9,7 +9,7 @@ const features: Feature[] = [
     icon: Cpu
   },
   {
-    title: "75+ Guidelines",
+    title: "91 Guidelines",
     description: "Comprehensive coverage across 12 categories including Security, API Design, and Performance.",
     icon: Shield
   },

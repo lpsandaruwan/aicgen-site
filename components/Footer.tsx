@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
         <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-sm text-textGray">
           <p>© {new Date().getFullYear()} Lahiru Sandaruwan. MIT License.</p>
           <div className="mt-4 md:mt-0 flex space-x-4">
-             <span className="px-2 py-1 rounded bg-white/5 text-xs">v1.0.0</span>
+             <span className="px-2 py-1 rounded bg-white/5 text-xs">v1.1.0</span>
           </div>
         </div>
       </div>

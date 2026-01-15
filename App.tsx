@@ -22,7 +22,7 @@ function App() {
         <section className="py-16 border-t border-white/5 bg-[#1e1b4b]/30">
             <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
-                    <div className="text-4xl font-bold text-primary mb-2">75+</div>
+                    <div className="text-4xl font-bold text-primary mb-2">91</div>
                     <div className="text-textGray text-sm uppercase tracking-wider">Guidelines</div>
                 </div>
                 <div>
@@ -30,7 +30,7 @@ function App() {
                     <div className="text-textGray text-sm uppercase tracking-wider">Categories</div>
                 </div>
                 <div>
-                    <div className="text-4xl font-bold text-primary mb-2">8</div>
+                    <div className="text-4xl font-bold text-primary mb-2">9</div>
                     <div className="text-textGray text-sm uppercase tracking-wider">Languages</div>
                 </div>
                  <div>
