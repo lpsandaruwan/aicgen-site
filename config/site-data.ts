@@ -6,13 +6,14 @@
  */
 
 export const SITE_DATA = {
-  version: '1.0',
+  version: '1.1.0',
 
   stats: {
-    guidelines: 91,
+    guidelines: 99,
     categories: 12,
-    languages: 9,
+    languages: 12,
     assistants: 5,
+    workflows: 6,
   },
 
   languages: [
@@ -26,6 +27,8 @@ export const SITE_DATA = {
     'Ruby',
     'Dart',
     'Swift',
+    'Kotlin',
+    'PHP',
   ],
 
   assistants: [
@@ -51,13 +54,28 @@ export const SITE_DATA = {
     'Design Patterns',
   ],
 
+  sdlcWorkflow: {
+    commands: [
+      { name: '/spec', description: 'Capture requirements & acceptance criteria' },
+      { name: '/research', description: 'Codebase scan + web research + infra preference' },
+      { name: '/plan', description: 'Phased implementation plan with checkpoints' },
+      { name: '/build', description: 'Execute plan phase by phase with review gates' },
+      { name: '/check', description: 'Verify against spec, run tests, flag regressions' },
+      { name: '/ship', description: 'Pre-flight checks + PR description draft' },
+    ],
+  },
+
   features: {
+    sdlcWorkflows: {
+      title: 'SDLC Workflow Commands',
+      description: 'Six slash commands (/spec → /research → /plan → /build → /check → /ship) injected into every config. Structured delivery from requirements to PR, with web research and infrastructure preference built in.',
+    },
     multiAssistant: {
       title: 'Multi-Assistant Support',
       description: 'Supports Claude Code, GitHub Copilot, Gemini, Antigravity, and Codex out of the box.',
     },
     guidelines: {
-      title: '91 Guidelines',
+      title: '99 Guidelines',
       description: 'Comprehensive coverage across 12 categories including Security, API Design, and Performance.',
     },
     interactiveCLI: {

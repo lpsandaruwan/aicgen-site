@@ -72,6 +72,19 @@ export const OutputPreview: React.FC = () => {
                         <div className="pl-6 text-gray-500">
                              <div>└── guideline-checker.md</div>
                         </div>
+                        <div className="flex items-center space-x-2 text-gray-300 pt-1">
+                            <Folder size={16} className="text-primary" />
+                            <span>commands/</span>
+                            <span className="text-xs text-primary/60 font-mono">new</span>
+                        </div>
+                        <div className="pl-6 text-gray-500 space-y-1">
+                            <div>├── spec.md</div>
+                            <div>├── research.md</div>
+                            <div>├── plan.md</div>
+                            <div>├── build.md</div>
+                            <div>├── check.md</div>
+                            <div>└── ship.md</div>
+                        </div>
                     </div>
                 </div>
             </div>

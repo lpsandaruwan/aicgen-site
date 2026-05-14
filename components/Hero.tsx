@@ -57,12 +57,12 @@ export const Hero: React.FC = () => {
         {/* Supported By Logos (Simulated with text/icons for now as no assets provided) */}
         <div className="mt-20 pt-10 border-t border-white/5">
             <p className="text-center text-textGray text-sm uppercase tracking-widest mb-8">Supported Assistants</p>
-            <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-               {/* Placeholders for logos - styling text to look like logos */}
-               <span className="font-bold text-xl text-white flex items-center gap-2"><div className="w-3 h-3 bg-[#d97757] rounded-full"></div>Claude</span>
-               <span className="font-bold text-xl text-white flex items-center gap-2"><div className="w-3 h-3 bg-white rounded-full"></div>Copilot</span>
-               <span className="font-bold text-xl text-white flex items-center gap-2"><div className="w-3 h-3 bg-[#4285f4] rounded-full"></div>Gemini</span>
-               <span className="font-bold text-xl text-white flex items-center gap-2"><div className="w-3 h-3 bg-purple-500 rounded-full"></div>Codex</span>
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+               <span className="font-bold text-lg text-white flex items-center gap-2"><div className="w-3 h-3 bg-[#d97757] rounded-full"></div>Claude</span>
+               <span className="font-bold text-lg text-white flex items-center gap-2"><div className="w-3 h-3 bg-white rounded-full"></div>Copilot</span>
+               <span className="font-bold text-lg text-white flex items-center gap-2"><div className="w-3 h-3 bg-[#4285f4] rounded-full"></div>Gemini</span>
+               <span className="font-bold text-lg text-white flex items-center gap-2"><div className="w-3 h-3 bg-purple-500 rounded-full"></div>Codex</span>
+               <span className="font-bold text-lg text-white flex items-center gap-2"><div className="w-3 h-3 bg-emerald-400 rounded-full"></div>Antigravity</span>
             </div>
         </div>
       </div>
